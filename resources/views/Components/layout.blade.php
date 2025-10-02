@@ -11,24 +11,9 @@
 <body>
     <nav class="bg-gray-800 p-4">
         <ul class="flex space-x-4">
-            <x-nav-link>
-                <x-slot:link>
-                    '/'
-                </x-slot:link>
-                Home
-            </x-nav-link>
-            <x-nav-link>
-                <x-slot:link>
-                    '/about'
-                </x-slot:link>
-                About
-            </x-nav-link>
-            <x-nav-link>
-                <x-slot:link>
-                    '/contact'
-                </x-slot:link>
-                Contact
-            </x-nav-link>
+            <x-nav-link href='/' class='text-white hover:text-gray-400'>Home</x-nav-link>
+            <x-nav-link href='/about' class='text-white hover:text-gray-400'>About</x-nav-link>
+            <x-nav-link href='/contact' class='text-white hover:text-gray-400'>Contact</x-nav-link>
         </ul>
     </nav>
     <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
