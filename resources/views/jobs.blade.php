@@ -3,7 +3,7 @@
 
     <div class="space-y-4">
         @foreach ($jobs as $job)
-            <a href="/jobs/{{ $job->id }}" class="block px-4 py-6 border border-gray-700 rounded-lg max-w-3xl">
+            <a href="/jobs/{{ $job->id }}" class="block px-4 py-6 border border-gray-700 rounded-lg">
                 <div class="font-bold text-sm text-blue-200 mb-2 hover:underline">
                     Posted by {{ $job->employer->name }}
                 </div>
@@ -12,6 +12,9 @@
                 </div>
             </a>
         @endforeach
-    </div>
 
+        <div>
+            {{ $jobs->links() }}
+        </div>
+    </div>
 </x-layout>

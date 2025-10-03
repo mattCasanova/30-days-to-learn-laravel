@@ -8,7 +8,16 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs', function () {
-    $jobs = Job::with('employer', 'tags')->get();
+    // Pagination examples:
+
+    // Fine but inefficient for large datasets
+    //$jobs = Job::with('employer', 'tags')->paginate(8);
+
+    // Most efficient for large datasets
+    //$jobs = Job::with('employer', 'tags')->cursorPaginate(8);
+
+    // Best for simple pagination without total count and good url generation
+    $jobs = Job::with('employer', 'tags')->simplePaginate(8);
     return view('jobs', [
         'jobs' => $jobs
     ]);
