@@ -38,8 +38,8 @@ Route::get('/jobs/{id}', function ($id) {
 
 Route::post('/jobs', function () {
     $attributes = request()->validate([
-        'title' => 'required|max:255',
-        'salary' => 'required|max:255',
+        'title' => 'required|min:3|max:255',
+        'salary' => 'required|min:3|max:255',
     ]);
 
     // For now, hardcode employer_id to 1

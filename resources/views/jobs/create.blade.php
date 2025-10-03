@@ -14,9 +14,12 @@
                         <div class="mt-2">
                             <div
                                 class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
-                                <input id="title" type="text" name="title" placeholder="Programmer"
+                                <input id="title" type="text" name="title" placeholder="Programmer" required
                                     class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
                             </div>
+                            @error('title')
+                                <p class="mt-2 text-sm/6 text-purple-400 italic">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -25,11 +28,27 @@
                         <div class="mt-2">
                             <div
                                 class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
-                                <input id="salary" type="text" name="salary" placeholder="$60,000"
+                                <input id="salary" type="text" name="salary" placeholder="$60,000" required
                                     class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
                             </div>
+                            @error('salary')
+                                <p class="mt-2 text-sm/6 text-purple-400 italic">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
+
+                    <!--
+                    @if ($errors->any())
+<div class="sm:col-span-6">
+                            <ul class="list-disc space-y-1 pl-5 text-sm/6 text-purple-400 italic">
+                                @foreach ($errors->all() as $error)
+<li>{{ $error }}</li>
+@endforeach
+                            </ul>
+                        </div>
+@endif
+                    -->
+
                 </div>
             </div>
 
