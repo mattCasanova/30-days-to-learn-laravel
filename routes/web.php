@@ -1,87 +1,30 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
 use App\Models\Job;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
+Route::view('/', 'home');
+Route::view('/contact', 'contact');
+
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs', 'index');
+    Route::get('/jobs/create', 'create');
+
+    // uses wildcard {id} or {job} to capture the job id from the URL
+    // e.g. /jobs/5 would capture 5 as the id
+    // This could be conflicted with other routes like /jobs/create
+    // so the order of route definitions matters
+    // More specific routes should be defined before more general ones
+    Route::get('/jobs/{job}', 'show');
+    Route::post('/jobs', 'store');
+    Route::get('/jobs/{job}/edit', 'edit');
+    Route::patch('/jobs/{job}', 'update');
+    Route::delete('/jobs/{job}', 'destroy');
 });
 
-// index
-Route::get('/jobs', function () {
-    // Pagination examples:
-
-    // Fine but inefficient for large datasets
-    //$jobs = Job::with('employer', 'tags')->paginate(8);
-
-    // Most efficient for large datasets
-    //$jobs = Job::with('employer', 'tags')->cursorPaginate(8);
-
-    // Best for simple pagination without total count and good url generation
-    $jobs = Job::with('employer', 'tags')->latest()->simplePaginate(8);
-    return view('jobs.index', [
-        'jobs' => $jobs
-    ]);
-});
-
-// create
-Route::get('/jobs/create', function () {
-    return view('jobs.create');
-});
-
-// uses wildcard {id} to capture the job id from the URL
-// e.g. /jobs/5 would capture 5 as the id
-// This could be conflicted with other routes like /jobs/create
-// so the order of route definitions matters
-// More specific routes should be defined before more general ones
-Route::get('/jobs/{job}', function (Job $job) {
-    $job->load(['employer', 'tags']);
-    return view('jobs.show', compact('job'));
-});
-
-// store
-Route::post('/jobs', function () {
-    $attributes = request()->validate([
-        'title' => 'required|min:3|max:255',
-        'salary' => 'required|min:3|max:255',
-    ]);
-
-    // For now, hardcode employer_id to 1
-    $attributes = array_merge($attributes, ['employer_id' => 1]);
-    $job = Job::create($attributes);
-
-    return redirect('/jobs');
-});
-
-// edit
-Route::get('/jobs/{job}/edit', function (Job $job) {
-    $job->load(['employer', 'tags']);
-    return view('jobs.edit', compact('job'));
-});
-
-// update
-Route::patch('/jobs/{job}', function (Job $job) {
-    // validate
-    $attributes = request()->validate([
-        'title' => 'required|min:3|max:255',
-        'salary' => 'required|min:3|max:255',
-    ]);
-    // authorize - skipped for now
-
-    // update
-    $job->update($attributes);
-    return view('jobs.show', compact('job'));
-});
-
-// delete
-Route::delete('/jobs/{job}', function (Job $job) {
-    $job->delete();
-    return redirect('/jobs');
-});
-
-
-
-
-Route::get('/contact', function () {
-    return view('contact');
-});
+/* Alternatively, you can use resource routing which automatically creates these routes
+Route::resource('jobs', JobController::class)->only([
+    'index', 'show', 'create', 'store', 'edit', 'update', 'destroy'
+]);
+*/
