@@ -34,7 +34,7 @@ class JobController extends Controller
 
     }
 
-    public function store(Request $request, Job $job)
+    public function store()
     {
         $attributes = request()->validate([
             'title' => 'required|min:3|max:255',
@@ -43,7 +43,7 @@ class JobController extends Controller
 
         // For now, hardcode employer_id to 1
         $attributes = array_merge($attributes, ['employer_id' => 1]);
-        $job = Job::create($attributes);
+        Job::create($attributes);
 
         return redirect('/jobs');
     }

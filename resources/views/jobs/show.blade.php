@@ -8,5 +8,7 @@
         Posted by {{ $job->employer->name }}
     </div>
 
-    <x-button href="/jobs/{{ $job->id }}/edit" class="mt-6">Edit Job</x-button>
+    @can('edit', $job)
+        <x-button href="/jobs/{{ $job->id }}/edit" class="mt-6">Edit Job</x-button>
+    @endcan
 </x-layout>
