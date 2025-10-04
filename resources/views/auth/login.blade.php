@@ -9,7 +9,7 @@
                     <x-form-field>
                         <x-form-label for="email">Email</x-form-label>
                         <div class="mt-2">
-                            <x-form-input name="email" id="email" required type="email" />
+                            <x-form-input name="email" id="email" required type="emai" :value="old('email')" />
                             <x-form-error name="email" />
                         </div>
                     </x-form-field>

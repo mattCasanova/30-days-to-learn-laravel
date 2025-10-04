@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class RegisteredUserController extends Controller
 {
@@ -13,23 +16,18 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
-        $request->validate([
+        $attributes = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         // Create the user (you would typically hash the password and save to the database)
-        // User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        // ]);
+        $user = User::create($attributes);
 
         // Log the user in (optional)
-        // Auth::login($user);
+        Auth::login($user);
 
-        return redirect('/')->with('success', 'Registration successful!');
+        return redirect('/jobs')->with('success', 'Registration successful!');
     }
 }
