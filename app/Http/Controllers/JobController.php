@@ -47,7 +47,7 @@ class JobController extends Controller
         $attributes = array_merge($attributes, ['employer_id' => 1]);
         $job = Job::create($attributes);
 
-        Mail::to($job->employer->user)->send(new JobPosted($job));
+        Mail::to($job->employer->user)->queue(new JobPosted($job));
 
         return redirect('/jobs');
     }
