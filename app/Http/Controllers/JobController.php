@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\JobPosted;
 
 class JobController extends Controller
 {
@@ -43,7 +45,9 @@ class JobController extends Controller
 
         // For now, hardcode employer_id to 1
         $attributes = array_merge($attributes, ['employer_id' => 1]);
-        Job::create($attributes);
+        $job = Job::create($attributes);
+
+        Mail::to($job->employer->user)->send(new JobPosted($job));
 
         return redirect('/jobs');
     }
